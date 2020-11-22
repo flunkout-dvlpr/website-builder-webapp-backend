@@ -32,3 +32,13 @@ Parameters:
         Description: 'Required. Sets the configuration path for the parameter store.'
         Type: 'String'
         Default: 'parameterStore'
+
+Resources:
+  CleanCodeLibrary:
+    Type: 'AWS::Serverless::LayerVersion'
+    Properties:
+      ContentUri: ./lib/python/
+      CompatibleRuntimes:
+        - python3.7
+    Metadata: 
+      BuildMethod: python3.7
