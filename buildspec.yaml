@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.7
+
+  build:
+    commands:
+      - sam build
+  post_build:
+    commands:
+      - sam package --output-template-file outputSamTemplate.yaml --s3-bucket website-builder-webapp-backend
+
+artifacts:
+  type: zip
+  files:
+    - outputSamTemplate.yaml

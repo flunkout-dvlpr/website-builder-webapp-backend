@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Website Builder API
+
+Globals:
+  Api:    
+    # Allows API calls everywhere 
+    Cors:
+      AllowMethods: "'OPTIONS,POST,GET,DELETE'"
+      AllowHeaders: "'Content-Type,Authorization'"
+      AllowOrigin: "'*'"
+    GatewayResponses:
+      DEFAULT_5xx:
+        ResponseParameters:
+          Headers:
+            Access-Control-Allow-Origin: "'*'"
+      DEFAULT_4xx:
+        ResponseParameters:
+          Headers:
+            Access-Control-Allow-Origin: "'*'"
+
+Parameters:
+    Env:
+        Description: 'Required. Sets the environment.'
+        Type: 'String'
+        Default: 'prod'
+    Region:
+        Description: 'Required. Sets the region.'
+        Type: 'String'
+        Default: 'us-east-2'
+    AppConfigPath:
+        Description: 'Required. Sets the configuration path for the parameter store.'
+        Type: 'String'
+        Default: 'parameterStore'
