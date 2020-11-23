@@ -42,3 +42,97 @@ Resources:
         - python3.7
     Metadata: 
       BuildMethod: python3.7
+
+
+  register:
+    Type: 'AWS::Serverless::Function'
+    Properties:    
+      Handler: function.handler
+      Runtime: python3.7
+      CodeUri: ./lambdas/register
+      Description: 'Lambda function to create db record'
+      MemorySize: 128
+      Timeout: 30
+      Role: 'arn:aws:iam::672841565100:role/LambdaRole'
+      Events:
+        function:
+          Type: Api
+          Properties:
+            Path: /register
+            Method: POST
+      Environment:
+        Variables:
+          ENV: !Ref Env
+          REGION: !Ref Region
+          APP_CONFIG_PATH: !Ref AppConfigPath
+      Layers:
+        - !Ref CleanCodeLibrary
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-fb2c0281
+        SubnetIds:
+          - subnet-efa0a595
+          - subnet-d169059d
+          - subnet-cb25eaa0
+
+  updateRegistration:
+    Type: 'AWS::Serverless::Function'
+    Properties:    
+      Handler: function.handler
+      Runtime: python3.7
+      CodeUri: ./lambdas/update-registration
+      Description: 'Lambda function to update db record'
+      MemorySize: 128
+      Timeout: 30
+      Role: 'arn:aws:iam::672841565100:role/LambdaRole'
+      Events:
+        function:
+          Type: Api
+          Properties:
+            Path: /update-registration
+            Method: POST
+      Environment:
+        Variables:
+          ENV: !Ref Env
+          REGION: !Ref Region
+          APP_CONFIG_PATH: !Ref AppConfigPath
+      Layers:
+        - !Ref CleanCodeLibrary
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-fb2c0281
+        SubnetIds:
+          - subnet-efa0a595
+          - subnet-d169059d
+          - subnet-cb25eaa0
+
+  generatePresignedLink:
+      Type: 'AWS::Serverless::Function'
+      Properties:
+        Handler: function.handler
+        Runtime: python3.7
+        CodeUri: ./lambdas/generate-upload-link
+        Description: 'Lambda function to generate a pre-signed S3 bucket link'
+        MemorySize: 128
+        Timeout: 30
+        Role: 'arn:aws:iam::672841565100:role/LambdaRole'
+        Events:
+          addMemory:
+            Type: Api
+            Properties:
+              Path: /generate-upload-link
+              Method: POST
+        Environment:
+          Variables:
+            ENV: !Ref Env
+            REGION: !Ref Region
+            APP_CONFIG_PATH: !Ref AppConfigPath
+        Layers:
+          - !Ref CleanCodeLibrary
+        VpcConfig:
+          SecurityGroupIds:
+            - sg-fb2c0281
+          SubnetIds:
+            - subnet-0afb59bb4aef42c2c
+            - subnet-03576e05e1e4e7a10
+            - subnet-0c012bb7fafb41627
